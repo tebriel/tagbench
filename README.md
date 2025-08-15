@@ -8,6 +8,7 @@ datadog metrics.
 We have a function that creates a "base" slice every call then overwrites data to some fields. This tries to
 evaluate what is the fastest way to do this.
 
+```
 go test -bench=. -benchmem
 goos: linux
 goarch: arm64
@@ -16,3 +17,4 @@ BenchmarkMapRecreateBase-5       7462564               156.0 ns/op           336
 BenchmarkMapClone-5              5761983               206.4 ns/op           336 B/op          2 allocs/op
 PASS
 ok      github.com/tebriel/slicebench   2.356s
+```
