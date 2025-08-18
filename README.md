@@ -8,13 +8,20 @@ datadog metrics.
 We have a function that creates a "base" slice every call then overwrites data to some fields. This tries to
 evaluate what is the fastest way to do this.
 
+### `[]string` Unroll vs Append Test
+
+We have this pattern of creating a slice and then immediately using it only once as args to `append` with the
+`...` operator.
+
 ```
 go test -bench=. -benchmem
 goos: linux
 goarch: arm64
 pkg: github.com/tebriel/slicebench
-BenchmarkMapRecreateBase-5       7462564               156.0 ns/op           336 B/op          2 allocs/op
-BenchmarkMapClone-5              5761983               206.4 ns/op           336 B/op          2 allocs/op
+BenchmarkMapRecreateBase-5       8755324               131.6 ns/op           336 B/op          2 allocs/op
+BenchmarkMapClone-5              6787996               176.8 ns/op           336 B/op          2 allocs/op
+BenchmarkSliceUnroll-5          22933959                53.97 ns/op          256 B/op          3 allocs/op
+BenchmarkSliceLiteralItems-5    28731325                39.38 ns/op          192 B/op          2 allocs/op
 PASS
-ok      github.com/tebriel/slicebench   2.356s
+ok      github.com/tebriel/slicebench   4.726s
 ```
