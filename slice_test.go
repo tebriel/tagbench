@@ -1,6 +1,7 @@
 package bench
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -43,6 +44,57 @@ func BenchmarkSliceLiteralItems(b *testing.B) {
 			"sixsix",
 			"eighteight",
 		)
+	}
+	sliceResult = r
+}
+
+// BenchmarkSliceRuntimeExpansion creates the slice and appends items to it, causing runtime expansions
+func BenchmarkSliceRuntimeExpansion(b *testing.B) {
+	var r, data []string
+	for i := range [12]struct{}{} {
+		data = append(data, fmt.Sprintf("item-%d", i))
+	}
+
+	for i := 0; b.Loop(); i++ {
+		r = []string{
+			"one",
+			"two",
+			"three",
+			"four",
+			"five",
+		}
+		r = append(r, "five.five")
+		// Add twelve more items to the slice
+		r = append(r, data...)
+		r = append(r, "six")
+		r = append(r, "seven")
+	}
+	sliceResult = r
+}
+
+// BenchmarkSliceRuntimeExpansion sets capacity at creation of the slice to avoid unnecessary pauses for
+// expansion
+func BenchmarkSlicePreallocation(b *testing.B) {
+	var r, data []string
+	for i := range [12]struct{}{} {
+		data = append(data, fmt.Sprintf("item-%d", i))
+	}
+
+	for i := 0; b.Loop(); i++ {
+		// Pick a larger than expected capacity but not significantly so
+		r = make([]string, 0, 30)
+		r = append(r,
+			"one",
+			"two",
+			"three",
+			"four",
+			"five",
+		)
+		r = append(r, "five.five")
+		// Add twelve more items to the slice
+		r = append(r, data...)
+		r = append(r, "six")
+		r = append(r, "seven")
 	}
 	sliceResult = r
 }
