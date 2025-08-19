@@ -18,12 +18,14 @@ go test -bench=. -benchmem
 goos: linux
 goarch: arm64
 pkg: github.com/tebriel/slicebench
-BenchmarkMapRecreateBase-5               8694950               135.4 ns/op           336 B/op          2 allocs/op
-BenchmarkMapClone-5                      6512355               180.0 ns/op           336 B/op          2 allocs/op
-BenchmarkSliceUnroll-5                  22983133                54.44 ns/op          256 B/op          3 allocs/op
-BenchmarkSliceLiteralItems-5            24743875                40.69 ns/op          192 B/op          2 allocs/op
-BenchmarkRuntimeSliceExpansion-5        11247483               109.6 ns/op           560 B/op          3 allocs/op
-BenchmarkSlicePreallocation-5           17100126                76.78 ns/op          480 B/op          1 allocs/op
+BenchmarkMapRecreateBase-5               8726722               131.4 ns/op           336 B/op          2 allocs/op
+BenchmarkMapClone-5                      6725186               178.1 ns/op           336 B/op          2 allocs/op
+BenchmarkSliceUnroll-5                  23199984                51.79 ns/op          256 B/op          3 allocs/op
+BenchmarkSliceLiteralItems-5            32316963                38.04 ns/op          192 B/op          2 allocs/op
+BenchmarkSliceRuntimeExpansion-5        11562579               105.4 ns/op           560 B/op          3 allocs/op
+BenchmarkSlicePreallocation-5           16364073                71.03 ns/op          480 B/op          1 allocs/op
+BenchmarkSliceCreateVariadic-5          42497125                28.42 ns/op          160 B/op          1 allocs/op
+BenchmarkSliceCreateWithCopy-5          42560808                28.35 ns/op          160 B/op          1 allocs/op
 PASS
-ok      github.com/tebriel/slicebench   7.158s
+ok      github.com/tebriel/slicebench   9.576s
 ```

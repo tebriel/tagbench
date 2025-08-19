@@ -98,3 +98,39 @@ func BenchmarkSlicePreallocation(b *testing.B) {
 	}
 	sliceResult = r
 }
+
+// BenchmarkSliceCreateVariadic sets capacity at allocation and then uses append with slice expansion
+func BenchmarkSliceCreateVariadic(b *testing.B) {
+	var r, data []string
+	data = []string{
+		"one",
+		"two",
+		"three",
+		"four",
+	}
+
+	for i := 0; b.Loop(); i++ {
+		r = make([]string, 0, 10)
+		r = append(r, data...)
+	}
+	sliceResult = r
+}
+
+// BenchmarkSliceCreateWithCopy sets capacity at allocation and then uses copy to populate the slice
+func BenchmarkSliceCreateWithCopy(b *testing.B) {
+	var r, data []string
+	data = []string{
+		"one",
+		"two",
+		"three",
+		"four",
+	}
+
+	n := len(data)
+
+	for i := 0; b.Loop(); i++ {
+		r = make([]string, n, 10)
+		copy(r, data)
+	}
+	sliceResult = r
+}
